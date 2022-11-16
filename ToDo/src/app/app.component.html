@@ -1,0 +1,65 @@
+<h1>ToDo</h1>
+
+<label
+  >Filter
+  <input type="checkbox" name="filter" [(ngModel)]="filterIsOn" />
+</label>
+<input
+  type="text"
+  name="filterName"
+  [(ngModel)]="filterPersonName"
+  placeholder="Enter the Name to filter"
+/>
+
+<table>
+  <th>Description</th>
+  <th>Assigned-Person</th>
+  <th>Done</th>
+  <tr
+    *ngFor="let toDoItem of toDoList; let rowIx = index"
+    [hidden]="filter(toDoItem)"
+  >
+    <td>
+      <input
+        type="text"
+        name="toDoDescription"
+        [(ngModel)]="toDoItem.description"
+      />
+    </td>
+    <td>
+      <select name="assignedPerson" [(ngModel)]="toDoItem.assignedPerson">
+        <option *ngFor="let person of people">{{ person }}</option>
+      </select>
+    </td>
+    <td>
+      <input type="checkbox" name="isDoneToDo" [(ngModel)]="toDoItem.isDone" />
+    </td>
+    <td>
+      <button (click)="onButtonDelete(rowIx)">Delete</button>
+    </td>
+  </tr>
+</table>
+
+<h2>New ToDo</h2>
+<table>
+  <th>Description</th>
+  <th>Assigned-Person</th>
+  <tr>
+    <td>
+      <input
+        type="text"
+        name="newToDoDescription"
+        [(ngModel)]="newToDo.description"
+        #newDescription="ngModel"
+        required
+      />
+    </td>
+    <td>
+      <select name="newAssignedPerson" [(ngModel)]="newToDo.assignedPerson">
+        <option *ngFor="let person of people">{{ person }}</option>
+      </select>
+    </td>
+  </tr>
+</table>
+
+<button [disabled]="newDescription.errors" (click)="addNewToDo()">Add</button>
